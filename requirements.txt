@@ -1,0 +1,1 @@
+pillow  # Required for image processing (assuming you use Pillow for image handling)
