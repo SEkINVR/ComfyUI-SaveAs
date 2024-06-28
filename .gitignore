@@ -1,0 +1,19 @@
+# Python specific
+*.pyc           # Python compiled files
+__pycache__/    # Python cache directory
+
+# Virtual environments
+venv/           # Virtual environment directory
+
+# IDE or editor specific
+.vscode/        # Visual Studio Code specific settings
+.idea/          # IntelliJ IDEA specific settings
+*.iml           # IntelliJ IDEA module file
+*.pyc           # Python compiled files
+
+# Miscellaneous
+.DS_Store       # macOS directory metadata
+*.log           # Log files
+
+# Ignore specific to your project structure
+output/         # Ignore the output directory for saved images
