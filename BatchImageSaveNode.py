@@ -16,11 +16,11 @@ class BatchImageSaveNode:
 
     def execute(self, images, save_path=None, extension=".png"):
         # Set default save path
-        default_save_path = os.path.join("C:", "ComfyUI_windows_portable", "ComfyUI", "output")
+        default_save_path = "output"
         
-        # Check if the default path exists and is writable
+        # Ensure the output directory exists or create it
         if not os.path.exists(default_save_path):
-            os.makedirs(default_save_path, exist_ok=True)  # Create directory if it doesn't exist
+            os.makedirs(default_save_path, exist_ok=True)
         
         saved_files = []
         for i, image in enumerate(images):
