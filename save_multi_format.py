@@ -15,26 +15,21 @@ class SaveMultiFormatImage:
         return {
             "required": {
                 "images": ("IMAGE",),
-                "filename_prefix": ("STRING", {"default": "icon"}),
+                "filename_prefix": ("STRING", {"default": "image"}),
                 "format": (["png", "jpg", "webp", "ico"],),
-                "quality": ("INT", {"default": 95, "min": 1, "max": 100, "step": 1}),
+                "quality": ([1, 25, 50, 75, 95, 100],),
                 "ico_size_preset": (list(s.ICO_SIZES.keys()),),
-                "output_dir": ("STRING", {"default": ""}),
             },
         }
 
-    RETURN_TYPES = ("IMAGE",)
+    RETURN_TYPES = ("IMAGE", "STRING")
+    RETURN_NAMES = ("image", "filename")
     FUNCTION = "save_image"
     OUTPUT_NODE = True
     CATEGORY = "image"
 
-    def save_image(self, images, filename_prefix, format, quality, ico_size_preset, output_dir):
-        if output_dir:
-            save_dir = output_dir
-        else:
-            save_dir = folder_paths.get_output_directory()
-        
-        os.makedirs(save_dir, exist_ok=True)
+    def save_image(self, images, filename_prefix, format, quality, ico_size_preset):
+        save_dir = folder_paths.get_output_directory()
         
         ico_sizes = [int(size) for size in self.ICO_SIZES[ico_size_preset].split(",")]
 
@@ -62,7 +57,8 @@ class SaveMultiFormatImage:
             })
             print(f"Saved image as {filename}")
 
-        return (images,)
+        # Return the last saved image for preview
+        return (images[-1], results[-1]["filename"])
 
     def _generate_filename(self, save_dir, prefix, index, format):
         base_filename = f"{prefix}_{index+1}.{format}"
