@@ -1,4 +1,4 @@
-# ComfyUI Save Multi-Format Image Node
+# ComfyUI Save Multi-Format Node
 
 This custom node for ComfyUI allows you to save images in multiple formats, including PNG, JPG, WebP, and ICO.
 
