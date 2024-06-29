@@ -24,4 +24,6 @@ This custom node requires the following Python packages:
 These are usually already installed with ComfyUI, but if you encounter any issues, you can install them manually:
 ```bash
 pip install -r requirements.txt
-```
+git add .gitignore requirements.txt
+git commit -m "Add requirements.txt and .gitignore"
+git push
