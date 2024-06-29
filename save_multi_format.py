@@ -15,7 +15,7 @@ class SaveMultiFormatImage:
         return {
             "required": {
                 "images": ("IMAGE",),
-                "filename_prefix": ("STRING", {"default": "image"}),
+                "filename_prefix": ("STRING", {"default": "icon"}),
                 "format": (["png", "jpg", "webp", "ico"],),
                 "quality": ("INT", {"default": 95, "min": 1, "max": 100, "step": 1}),
                 "ico_size_preset": (list(s.ICO_SIZES.keys()),),
@@ -42,7 +42,10 @@ class SaveMultiFormatImage:
         for i, image in enumerate(images):
             img = Image.fromarray((255. * image.cpu().numpy()).astype(np.uint8))
             
-            filename = self._generate_filename(save_dir, filename_prefix, i, format)
+            if format == "ico":
+                filename = self._generate_filename(save_dir, "icon", i, format)
+            else:
+                filename = self._generate_filename(save_dir, filename_prefix, i, format)
             
             if format == "ico":
                 self._save_ico(img, filename, ico_sizes)
