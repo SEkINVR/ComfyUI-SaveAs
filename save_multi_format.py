@@ -3,11 +3,11 @@ from PIL import Image
 import numpy as np
 import folder_paths
 
-class SaveMultiFormatImage:
+class ComfyUISaveAs:
     ICO_SIZES = {
-        "small": "16,32,48",
-        "medium": "16,32,48,64,128",
-        "large": "16,32,48,64,128,256"
+        "Small (16, 32, 48)": "16,32,48",
+        "Medium (16, 32, 48, 64, 128)": "16,32,48,64,128",
+        "Large (16, 32, 48, 64, 128, 256)": "16,32,48,64,128,256"
     }
 
     @classmethod
@@ -16,49 +16,46 @@ class SaveMultiFormatImage:
             "required": {
                 "images": ("IMAGE",),
                 "filename_prefix": ("STRING", {"default": "image"}),
-                "format": (["png", "jpg", "webp", "ico"],),
-                "quality": ([1, 25, 50, 75, 95, 100],),
+                "format": (["PNG", "JPG", "WebP", "ICO"],),
+                "quality": ([95, 90, 85, 80, 75, 70, 60, 50], {"default": 95}),
                 "ico_size_preset": (list(s.ICO_SIZES.keys()),),
             },
         }
 
-    RETURN_TYPES = ("IMAGE", "STRING")
-    RETURN_NAMES = ("image", "filename")
+    RETURN_TYPES = ()
     FUNCTION = "save_image"
     OUTPUT_NODE = True
     CATEGORY = "image"
 
     def save_image(self, images, filename_prefix, format, quality, ico_size_preset):
         save_dir = folder_paths.get_output_directory()
+        format = format.lower()
         
         ico_sizes = [int(size) for size in self.ICO_SIZES[ico_size_preset].split(",")]
 
-        results = []
         for i, image in enumerate(images):
-            img = Image.fromarray((255. * image.cpu().numpy()).astype(np.uint8))
-            
-            if format == "ico":
-                filename = self._generate_filename(save_dir, "icon", i, format)
-            else:
-                filename = self._generate_filename(save_dir, filename_prefix, i, format)
-            
-            if format == "ico":
-                self._save_ico(img, filename, ico_sizes)
-            elif format == "jpg":
-                img.convert("RGB").save(filename, format=format, quality=quality)
-            elif format == "webp":
-                img.save(filename, format=format, quality=quality)
-            else:  # png
-                img.save(filename, format=format)
-            
-            results.append({
-                "filename": filename,
-                "type": format
-            })
-            print(f"Saved image as {filename}")
+            try:
+                img = Image.fromarray((255. * image.cpu().numpy()).astype(np.uint8))
+                
+                if format == "ico":
+                    filename = self._generate_filename(save_dir, "icon", i, format)
+                else:
+                    filename = self._generate_filename(save_dir, filename_prefix, i, format)
+                
+                if format == "ico":
+                    self._save_ico(img, filename, ico_sizes)
+                elif format == "jpg":
+                    img.convert("RGB").save(filename, format=format, quality=quality)
+                elif format == "webp":
+                    img.save(filename, format=format, quality=quality)
+                else:  # png
+                    img.save(filename, format=format)
+                
+                print(f"Saved image as {filename}")
+            except Exception as e:
+                print(f"Error saving image {i+1}: {str(e)}")
 
-        # Return the last saved image for preview
-        return (images[-1], results[-1]["filename"])
+        return ()
 
     def _generate_filename(self, save_dir, prefix, index, format):
         base_filename = f"{prefix}_{index+1}.{format}"
@@ -74,9 +71,9 @@ class SaveMultiFormatImage:
         ico_images[0].save(filename, format="ico", sizes=[(size, size) for size in sizes])
 
 NODE_CLASS_MAPPINGS = {
-    "SaveMultiFormatImage": SaveMultiFormatImage
+    "ComfyUISaveAs": ComfyUISaveAs
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "SaveMultiFormatImage": "Save Multi-Format Image"
+    "ComfyUISaveAs": "Save As"
 }
