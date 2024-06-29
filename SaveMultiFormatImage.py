@@ -21,7 +21,6 @@ class SaveMultiFormatImage:
     CATEGORY = "image"
 
     def save_image(self, images, filename_prefix, format, quality, ico_sizes):
-        results = []
         output_dir = "outputs"
         os.makedirs(output_dir, exist_ok=True)
         
@@ -39,10 +38,9 @@ class SaveMultiFormatImage:
             else:
                 img.save(filename, format=format, quality=quality)
             
-            results.append({"filename": filename, "type": format})
             print(f"Saved image as {filename}")
 
-        return (results,)
+        return (images,)
 
     def _generate_filename(self, output_dir, prefix, index, format):
         base_filename = f"{prefix}_{index+1}.{format}"
