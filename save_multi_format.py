@@ -4,15 +4,21 @@ import numpy as np
 import folder_paths
 
 class SaveMultiFormatImage:
+    ICO_SIZES = {
+        "small": "16,32,48",
+        "medium": "16,32,48,64,128",
+        "large": "16,32,48,64,128,256"
+    }
+
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": {
                 "images": ("IMAGE",),
-                "filename_prefix": ("STRING", {"default": "image"}),
+                "filename_prefix": ("STRING", {"default": "icon"}),
                 "format": (["png", "jpg", "webp", "ico"],),
                 "quality": ("INT", {"default": 95, "min": 1, "max": 100, "step": 1}),
-                "ico_sizes": ("STRING", {"default": "16,32,48,64,128,256"}),
+                "ico_size_preset": (list(s.ICO_SIZES.keys()),),
                 "output_dir": ("STRING", {"default": ""}),
             },
         }
@@ -22,7 +28,7 @@ class SaveMultiFormatImage:
     OUTPUT_NODE = True
     CATEGORY = "image"
 
-    def save_image(self, images, filename_prefix, format, quality, ico_sizes, output_dir):
+    def save_image(self, images, filename_prefix, format, quality, ico_size_preset, output_dir):
         if output_dir:
             save_dir = output_dir
         else:
@@ -30,13 +36,16 @@ class SaveMultiFormatImage:
         
         os.makedirs(save_dir, exist_ok=True)
         
-        ico_sizes = [int(size.strip()) for size in ico_sizes.split(",")]
+        ico_sizes = [int(size) for size in self.ICO_SIZES[ico_size_preset].split(",")]
 
         results = []
         for i, image in enumerate(images):
             img = Image.fromarray((255. * image.cpu().numpy()).astype(np.uint8))
             
-            filename = self._generate_filename(save_dir, filename_prefix, i, format)
+            if format == "ico":
+                filename = self._generate_filename(save_dir, "icon", i, format)
+            else:
+                filename = self._generate_filename(save_dir, filename_prefix, i, format)
             
             if format == "ico":
                 self._save_ico(img, filename, ico_sizes)
