@@ -9,6 +9,14 @@ This custom node for ComfyUI allows you to save images in multiple formats, incl
 - Specify multiple sizes for ICO files
 - Automatically saves ICO files to `output/icon/icon.ico`
 
+ ## To use this node:
+1. Connect your image output to this node.
+2. Set the filename_prefix as desired.
+3. Choose the format you want (png, jpg, webp, or ico).
+4. Set the quality for formats that support it.
+5. For ico format, specify the sizes in ico_sizes.
+6. Optionally, specify an output_dir if you want to save in a specific location.
+
 ## Installation
 
 1. Clone this repository into your ComfyUI's `custom_nodes` directory:
