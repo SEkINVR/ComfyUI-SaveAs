@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-save-multi-format"
+description = "This custom node for ComfyUI allows you to save images in multiple formats, including PNG, JPG, WebP, and ICO."
+version = "1.0.0"
+license = "LICENSE"
+dependencies = ["Pillow>=9.0.0", "numpy>=1.20.0"]
+
+[project.urls]
+Repository = "https://github.com/SEkINVR/ComfyUI-Save-Multi-Format"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-Save-Multi-Format"
+Icon = ""
