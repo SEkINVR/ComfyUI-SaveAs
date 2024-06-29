@@ -1,19 +1,30 @@
-# Python specific
-*.pyc           # Python compiled files
-__pycache__/    # Python cache directory
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Virtual environments
-venv/           # Virtual environment directory
+# Virtual environment
+venv/
+env/
+*.env
 
-# IDE or editor specific
-.vscode/        # Visual Studio Code specific settings
-.idea/          # IntelliJ IDEA specific settings
-*.iml           # IntelliJ IDEA module file
-*.pyc           # Python compiled files
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Miscellaneous
-.DS_Store       # macOS directory metadata
-*.log           # Log files
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
 
-# Ignore specific to your project structure
-output/         # Ignore the output directory for saved images
+# Logs
+*.log
+
+# Temporary files
+*.tmp
