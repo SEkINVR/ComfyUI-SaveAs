@@ -16,8 +16,8 @@ class ComfyUISaveAs:
             "required": {
                 "images": ("IMAGE",),
                 "filename_prefix": ("STRING", {"default": "image"}),
-                "format": (["PNG", "JPG", "WebP", "ICO"],),
-                "quality": ([95, 90, 85, 80, 75, 70, 60, 50], {"default": 95}),
+                "format": (["PNG", "JPG", "WEBP", "ICO"],),
+                "quality": ([100, 95, 90, 85, 80, 75, 70, 60, 50],),
                 "ico_size_preset": (list(s.ICO_SIZES.keys()),),
             },
         }
@@ -25,7 +25,7 @@ class ComfyUISaveAs:
     RETURN_TYPES = ()
     FUNCTION = "save_image"
     OUTPUT_NODE = True
-    CATEGORY = "image"
+    CATEGORY = "image/io"
 
     def save_image(self, images, filename_prefix, format, quality, ico_size_preset):
         save_dir = folder_paths.get_output_directory()
@@ -34,14 +34,11 @@ class ComfyUISaveAs:
         ico_sizes = [int(size) for size in self.ICO_SIZES[ico_size_preset].split(",")]
 
         for i, image in enumerate(images):
+            img = Image.fromarray((255. * image.cpu().numpy()).astype(np.uint8))
+            
+            filename = self._generate_filename(save_dir, filename_prefix, i, format)
+            
             try:
-                img = Image.fromarray((255. * image.cpu().numpy()).astype(np.uint8))
-                
-                if format == "ico":
-                    filename = self._generate_filename(save_dir, "icon", i, format)
-                else:
-                    filename = self._generate_filename(save_dir, filename_prefix, i, format)
-                
                 if format == "ico":
                     self._save_ico(img, filename, ico_sizes)
                 elif format == "jpg":
@@ -53,7 +50,7 @@ class ComfyUISaveAs:
                 
                 print(f"Saved image as {filename}")
             except Exception as e:
-                print(f"Error saving image {i+1}: {str(e)}")
+                print(f"Error saving {filename}: {str(e)}")
 
         return ()
 
