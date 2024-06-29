@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 import numpy as np
+import folder_paths
 
 class SaveMultiFormatImage:
     @classmethod
@@ -21,23 +22,29 @@ class SaveMultiFormatImage:
     CATEGORY = "image"
 
     def save_image(self, images, filename_prefix, format, quality, ico_sizes):
-        output_dir = "outputs"
-        os.makedirs(output_dir, exist_ok=True)
+        output_dir = folder_paths.get_output_directory()
         
         ico_sizes = [int(size.strip()) for size in ico_sizes.split(",")]
 
+        results = []
         for i, image in enumerate(images):
             img = Image.fromarray((255. * image.cpu().numpy()).astype(np.uint8))
             
-            filename = self._generate_filename(output_dir, filename_prefix, i, format)
-
             if format == "ico":
+                filename = os.path.join(output_dir, "icon", "icon.ico")
+                os.makedirs(os.path.dirname(filename), exist_ok=True)
                 self._save_ico(img, filename, ico_sizes)
-            elif format == "jpg":
-                img.convert("RGB").save(filename, format=format, quality=quality)
             else:
-                img.save(filename, format=format, quality=quality)
+                filename = self._generate_filename(output_dir, filename_prefix, i, format)
+                if format == "jpg":
+                    img.convert("RGB").save(filename, format=format, quality=quality)
+                else:
+                    img.save(filename, format=format, quality=quality)
             
+            results.append({
+                "filename": filename,
+                "type": format
+            })
             print(f"Saved image as {filename}")
 
         return (images,)
