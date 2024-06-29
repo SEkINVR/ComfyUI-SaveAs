@@ -12,3 +12,6 @@ This custom node for ComfyUI allows you to save images in multiple formats, incl
 ## Installation
 
 1. Clone this repository into your ComfyUI's `custom_nodes` directory:
+```bash
+ cd /path/to/ComfyUI/custom_nodes
+ git clone https://github.com/SEkINVR/ComfyUI-Save-Multi-Format.git
