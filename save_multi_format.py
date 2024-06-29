@@ -4,12 +4,7 @@ import numpy as np
 import folder_paths
 
 class SaveMultiFormatImage:
-    ICO_SIZES = {
-        "small": "16,32,48",
-        "medium": "16,32,48,64,128",
-        "large": "16,32,48,64,128,256"
-    }
-
+    
     @classmethod
     def INPUT_TYPES(s):
         return {
