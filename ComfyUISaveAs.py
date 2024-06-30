@@ -4,11 +4,15 @@ import numpy as np
 import folder_paths
 import io
 import base64
-import cairosvg
 import fitz  # PyMuPDF
 from psd_tools import PSDImage
 import rawpy
 import moviepy.editor as mp
+
+try:
+    import cairosvg
+except ImportError:
+    cairosvg = None
 
 class ComfyUISaveAs:
     ICO_SIZES = {
@@ -88,6 +92,8 @@ class ComfyUISaveAs:
         clip.write_videofile(filename, codec='libx264', fps=24)
     
     def _save_svg(self, img, filename):
+        if cairosvg is None:
+            raise ImportError("cairosvg is not installed. Cannot save as SVG.")
         img.save(filename.replace('.svg', '.png'), format='PNG')
         cairosvg.svg2png(url=filename.replace('.svg', '.png'), write_to=filename)
         os.remove(filename.replace('.svg', '.png'))
