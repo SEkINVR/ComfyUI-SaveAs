@@ -14,25 +14,30 @@ A custom node for ComfyUI that allows saving images and videos in multiple forma
 - Customize quality for supported formats
 - Specify multiple sizes for ICO files
 
- ## To use this node:
-1. Connect your image output to this node.
-2. Set the filename_prefix as desired.
-3. Choose the format you want (png, jpg, webp, or ico).
-4. Set the quality for formats that support it.
-5. For ico format, specify the sizes in ico_sizes.
-6. Optionally, specify an output_dir if you want to save in a specific location.
-
 ## Installation
 
 1. Clone this repository into your ComfyUI's `custom_nodes` directory:
 ```bash
  git clone https://github.com/SEkINVR/ComfyUI-SaveAs.git
 ```
+2. Install the required dependencies:
+```bash
+ pip install -r requirements.txt
+```
+
 ## Requirements
 
 This custom node requires the following Python packages:
 - Pillow >= 9.0.0
 - numpy >= 1.20.0
+
+## Usage
+
+1. In ComfyUI, you'll find a new node called "Save As" under the "image/io" category.
+2. Connect an image output to this node.
+3. Choose your desired format and settings.
+4. Run the workflow to save your image and generate a preview.
+
 
 These are usually already installed with ComfyUI, but if you encounter any issues, you can install them manually:
 ```bash
