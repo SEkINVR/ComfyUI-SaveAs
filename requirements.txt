@@ -1,7 +1,7 @@
 Pillow
 numpy
-cairosvg
 PyMuPDF
 psd-tools
 rawpy
 moviepy
+cairosvg
