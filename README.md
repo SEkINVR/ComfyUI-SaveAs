@@ -1,7 +1,13 @@
-# ComfyUI SaveAS
+# ComfyUI-SaveAs
 
-This custom node for ComfyUI allows you to save images in multiple formats, including PNG, JPG, WebP, and ICO.
+A custom node for ComfyUI that allows saving images and videos in multiple formats with a preview feature.
 
+## Supported Formats
+
+- Images: PNG, JPG, WEBP, ICO, GIF, BMP, TIFF
+- Videos: MP4, MOV
+- Others: SVG, PDF, PSD, RAW
+- 
 ## Features
 
 - Save images in PNG, JPG, WebP, and ICO formats
