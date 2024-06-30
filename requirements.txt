@@ -1,2 +1,7 @@
-Pillow>=9.0.0
-numpy>=1.20.0
+Pillow
+numpy
+cairosvg
+PyMuPDF
+psd-tools
+rawpy
+moviepy
