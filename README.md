@@ -56,7 +56,7 @@ ComfyUI-SaveAs/
 ├── requirements.txt
 ├── install_requirements.sh
 ├── update.sh
-└── examples/ (optional)
+└── examples/
     └── example_workflow.png
 ```
 
