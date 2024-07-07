@@ -1,8 +1,6 @@
 # ComfyUI-SaveAs 
 A custom node for ComfyUI that allows saving images in multiple formats with advanced options and a preview feature.
-
-<img width="762" alt="PC_Icon_creator_Workflow" src="https://github.com/SEkINVR/ComfyUI-SaveAs/assets/112916323/2b0e74da-aacb-427e-b4dc-d7fdab20c296">
-
+![image](https://github.com/SEkINVR/ComfyUI-SaveAs/assets/112916323/35149cf9-bd5e-4b38-b4a0-6619ff4b7ef2)
 ## Supported Formats
 - Images: PNG, JPG, WEBP, ICO, GIF, BMP, TIFF
 
