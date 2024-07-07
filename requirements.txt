@@ -1,7 +1,1 @@
-Pillow
-numpy
-PyMuPDF
-psd-tools
-rawpy
-moviepy
-cairosvg
+Pillow>=8.3.0
