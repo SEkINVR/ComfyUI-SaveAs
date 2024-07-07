@@ -9,10 +9,10 @@ A custom node for ComfyUI that allows saving images and videos in multiple forma
 - Others: SVG, PDF, PSD, RAW
 - 
 ## Features
-
-- Save images in PNG, JPG, WebP, and ICO formats
+- Supports PNG, JPG, WEBP, ICO, GIF, BMP, and TIFF formats
+- ICO size presets
+- Preview of saved image and filenames
 - Customize quality for supported formats
-- Specify multiple sizes for ICO files
 
 ## Installation
 
@@ -53,7 +53,9 @@ ComfyUI-SaveAs/
 ├── __init__.py
 ├── ComfyUISaveAs.py
 ├── README.md
-├── requirements.txt
-└── examples/
+├── requirements.txt (if needed)
+├── install.sh
+├── update.sh
+└── examples/ (optional)
     └── example_workflow.png
 ```
