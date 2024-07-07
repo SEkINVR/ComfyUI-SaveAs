@@ -45,3 +45,12 @@ pip install -r requirements.txt
 git add .gitignore requirements.txt
 git commit -m "Add requirements.txt and .gitignore"
 git push
+```
+ComfyUI-SaveAs/
+│
+├── __init__.py
+├── ComfyUISaveAs.py
+├── README.md
+├── requirements.txt
+└── examples/
+    └── example_workflow.png
