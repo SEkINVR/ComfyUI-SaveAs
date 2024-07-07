@@ -34,10 +34,6 @@ if [ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]; then
         pip install -r requirements.txt --upgrade
     fi
 
-    # Update the update script in the ComfyUI root directory
-    cp update.sh "$COMFYUI_DIR/update_saveas.sh"
-    chmod +x "$COMFYUI_DIR/update_saveas.sh"
-
     echo "ComfyUI SaveAs node has been updated successfully!"
 else
     echo "ComfyUI SaveAs node is already up to date."
