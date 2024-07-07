@@ -1,5 +1,5 @@
 import os
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import folder_paths
 import torch
@@ -75,7 +75,6 @@ class ComfyUISaveAs:
         offset = ((preview_size[0] - img.width) // 2, (preview_size[1] - img.height) // 2)
         preview.paste(img, offset)
 
-        from PIL import ImageDraw, ImageFont
         draw = ImageDraw.Draw(preview)
         try:
             font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20)
@@ -83,8 +82,13 @@ class ComfyUISaveAs:
             font = ImageFont.load_default()
 
         text = f"Format: {format.upper()}\nFilename: {filename}"
-        text_size = draw.multiline_textsize(text, font=font)
-        text_position = ((preview_size[0] - text_size[0]) // 2, preview_size[1] - text_size[1] - 20)
+        
+        # New way to calculate text size
+        left, top, right, bottom = draw.multiline_textbbox((0, 0), text, font=font)
+        text_width = right - left
+        text_height = bottom - top
+        
+        text_position = ((preview_size[0] - text_width) // 2, preview_size[1] - text_height - 20)
         draw.multiline_text(text_position, text, font=font, fill=(0, 0, 0), align='center')
 
         preview_np = np.array(preview).astype(np.float32) / 255.0
