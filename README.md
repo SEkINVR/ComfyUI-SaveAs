@@ -57,7 +57,8 @@ ComfyUI-SaveAs/
 ├── install_requirements.sh
 ├── update.sh
 └── examples/
-    └── example_workflow.png
+    └── PC_Icon_creator_Workflow.json
+    └── PC_Icon_creator_Workflow.png
 ```
 
 ## Contributing
