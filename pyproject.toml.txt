@@ -1,0 +1,13 @@
+[project]
+name = "ComfyUI-SaveAs"
+description = "Nodes: ComfyUI-SaveAs,
+version = "1.0.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/SEkINVR/ComfyUI-SaveAs.git"
+
+[tool.comfy]
+PublisherId = "sekinvr"
+DisplayName = "ComfyUI-SaveAs"
+Icon = ""
