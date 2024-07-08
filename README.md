@@ -66,13 +66,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 [MIT License](https://opensource.org/licenses/MIT)
-```
 
-This updated README reflects the current state of your project, including:
-
-1. The accurate list of supported image formats.
-2. Updated features, including high-quality saving and preview capabilities.
-3. Correct installation instructions using the `install_requirements.sh` script.
-4. Updated requirements, specifying Pillow >= 9.5.0.
-5. Instructions for updating the node using the `update.sh` script.
-6. An accurate repository structure.
