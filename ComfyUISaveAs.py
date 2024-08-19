@@ -135,7 +135,52 @@ class ComfyUISaveAs:
         img.save(buffered, format="PNG")
         return "data:image/png;base64," + base64.b64encode(buffered.getvalue()).decode()
 
-    # ... (rest of the methods remain the same)
+    def _save_ico(self, img, filename, sizes):
+        ico_images = []
+        for size in sizes:
+            resized_img = img.copy()
+            resized_img.thumbnail((size, size), Image.LANCZOS)
+            ico_images.append(resized_img)
+        
+        ico_images[0].save(filename, format="ICO", sizes=[(size, size) for size in sizes], quality=100)
+
+    def _generate_filename(self, save_dir, prefix, index, format):
+        base_filename = f"{prefix}_{index+1}.{format}"
+        filename = os.path.join(save_dir, base_filename)
+        counter = 1
+        while os.path.exists(filename):
+            filename = os.path.join(save_dir, f"{prefix}_{index+1}_{counter}.{format}")
+            counter += 1
+        return filename
+
+    def _create_preview(self, img, format, filename):
+        preview_size = (512, 512)
+        preview = Image.new('RGB', preview_size, (255, 255, 255))
+
+        img.thumbnail((450, 450))
+
+        offset = ((preview_size[0] - img.width) // 2, (preview_size[1] - img.height) // 2)
+        preview.paste(img, offset)
+
+        draw = ImageDraw.Draw(preview)
+        try:
+            font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20)
+        except IOError:
+            font = ImageFont.load_default()
+
+        text = f"Format: {format.upper()}\nFilename: {filename}"
+        
+        left, top, right, bottom = draw.multiline_textbbox((0, 0), text, font=font)
+        text_width = right - left
+        text_height = bottom - top
+        
+        text_position = ((preview_size[0] - text_width) // 2, preview_size[1] - text_height - 20)
+        draw.multiline_text(text_position, text, font=font, fill=(0, 0, 0), align='center')
+
+        preview_np = np.array(preview).astype(np.float32) / 255.0
+        preview_tensor = torch.from_numpy(preview_np).unsqueeze(0)
+
+        return preview_tensor
 
 NODE_CLASS_MAPPINGS = {
     "ComfyUISaveAs": ComfyUISaveAs
