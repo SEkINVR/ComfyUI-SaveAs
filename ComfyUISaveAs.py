@@ -3,7 +3,6 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import folder_paths
 import torch
-import svgwrite
 
 class ComfyUISaveAs:
     ICO_SIZES = {
@@ -87,6 +86,11 @@ class ComfyUISaveAs:
             img.save(filename, format="PNG", optimize=True)
 
     def _save_vector(self, img, filename, format):
+        try:
+            import svgwrite
+        except ImportError:
+            raise ImportError("The 'svgwrite' module is required for saving vector graphics. Please install it using 'pip install svgwrite'.")
+
         if format == "svg":
             self._save_svg(img, filename)
         elif format == "ai":
@@ -96,14 +100,40 @@ class ComfyUISaveAs:
         elif format == "drw":
             self._save_drw(img, filename)
 
-    def _save_ico(self, img, filename, sizes):
-        ico_images = []
-        for size in sizes:
-            resized_img = img.copy()
-            resized_img.thumbnail((size, size), Image.LANCZOS)
-            ico_images.append(resized_img)
-        
-        ico_images[0].save(filename, format="ICO", sizes=[(size, size) for size in sizes], quality=100)
+    def _save_svg(self, img, filename):
+        dwg = svgwrite.Drawing(filename, size=img.size)
+        dwg.add(dwg.image(href=self._image_to_data_uri(img), size=img.size))
+        dwg.save()
+
+    def _save_ai(self, img, filename):
+        # For simplicity, we'll save as SVG and rename to .ai
+        svg_filename = filename[:-3] + ".svg"
+        self._save_svg(img, svg_filename)
+        os.rename(svg_filename, filename)
+
+    def _save_svgz(self, img, filename):
+        import gzip
+        svg_content = self._get_svg_content(img)
+        with gzip.open(filename, 'wb') as f:
+            f.write(svg_content.encode('utf-8'))
+
+    def _save_drw(self, img, filename):
+        # For simplicity, we'll save as SVG and rename to .drw
+        svg_filename = filename[:-4] + ".svg"
+        self._save_svg(img, svg_filename)
+        os.rename(svg_filename, filename)
+
+    def _get_svg_content(self, img):
+        dwg = svgwrite.Drawing(size=img.size)
+        dwg.add(dwg.image(href=self._image_to_data_uri(img), size=img.size))
+        return dwg.tostring()
+
+    def _image_to_data_uri(self, img):
+        import base64
+        from io import BytesIO
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+        return "data:image/png;base64," + base64.b64encode(buffered.getvalue()).decode()
 
     # ... (rest of the methods remain the same)
 
